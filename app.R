@@ -6,12 +6,14 @@ library(randomForest)
 library(caret)
 library(readr)
 library(e1071)
-
-
+library(shiny)
+library(data.table)
+library(randomForest)
+library(shinythemes)
+require(reshape2)
 
 
 rawdata <- read_csv("hiringraw.csv")
-
 
 TrainingIndex <- createDataPartition(rawdata$positive, p=0.80, list = FALSE)
 TrainingSet <- rawdata[TrainingIndex,]
@@ -22,8 +24,6 @@ write.csv(TestingSet, "testing.csv")
 
 TrainSet <- read.csv("training.csv", header = TRUE)
 TrainSet <- TrainSet[,-1]
-
-
 
 model <- randomForest(as.factor(positive) ~ ., data = TrainSet, ntree = 200, mtry = 4, importance = TRUE)
 
@@ -37,18 +37,7 @@ fit_rf <- train(as.factor(positive)~.,
                 maxnodes = 24)
 
 
-
-library(shiny)
-library(data.table)
-library(randomForest)
-library(shinythemes)
-
-
-require(reshape2)
-
-
 theme = shinythemes::shinytheme("flatly")
-
 
 
 
